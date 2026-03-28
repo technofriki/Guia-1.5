@@ -1,7 +1,4 @@
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Menu {
@@ -46,8 +43,9 @@ public class Menu {
         System.out.println("3. Producto mas caro\n" +
                 "○ Obtener el producto más caro de cada categoría y devolver un mapa con la\n" +
                 "categoría como clave y el producto más caro como valor");
-        Map<String,Producto> productoCaroCategoria = lista.stream()
-                        .collect (Collectors.groupingBy(Producto::getCategoria))
+        Map<String, Optional<Producto>> productoCaroCategoria = lista.stream()
+                        .collect(Collectors.groupingBy(Producto::getCategoria, Collectors.maxBy(Comparator.comparingDouble(Producto::getPrecio))));
+        System.out.println("Productos mas caros por categoria: "+productoCaroCategoria);
 
 
 
@@ -56,11 +54,19 @@ public class Menu {
                 "○ Encontrar el producto de la categoría \"Deportes\" con stock mayor a 10\n" +
                 "unidades, obtener su nombre en minúsculas y devolverlo dentro de un\n" +
                 "Optional. Mostrarlo o si no existe, mostrar “Producto Inexistente”");
+       Optional <Producto> productoDeportesMayorADiez = lista.stream()
+                       .filter(n -> n.getCategoria().equalsIgnoreCase("Deportes") && n.getStock()>10)
+                               .findFirst();
+        System.out.println("Producto deportes: "+productoDeportesMayorADiez);
+
+
         System.out.println("--------------------------Ejercicio 5--------------------------");
         System.out.println("5. Producto Mas Barato\n" +
                 "○ Encontrar el producto mas barato calculando el valor total de todas las\n" +
                 "unidades en stock (Precio * stock). Devolver un Opcional con el producto. En\n" +
                 "caso de que no exista, lanzar una excepción.");
+
+
         System.out.println("--------------------------Ejercicio 6--------------------------");
         System.out.println("6. Productos en stock ordenados alfabéticamente\n" +
                 "○ Obtener una lista con los nombres de los productos que tienen stock,\n" +
