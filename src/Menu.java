@@ -65,7 +65,12 @@ public class Menu {
                 "○ Encontrar el producto mas barato calculando el valor total de todas las\n" +
                 "unidades en stock (Precio * stock). Devolver un Opcional con el producto. En\n" +
                 "caso de que no exista, lanzar una excepción.");
-
+        Double precioTotal = lista.stream()
+                        .mapToDouble(n-> n.getStock()*n.getPrecio())
+                        .sum();
+        Optional<Producto> productoMasBarato = lista.stream()
+                        .filter(p->(p.getPrecio()*p.getStock())<=precioTotal)
+                                .min(Comparator.comparingDouble(Producto::getPrecio).reversed());
 
         System.out.println("--------------------------Ejercicio 6--------------------------");
         System.out.println("6. Productos en stock ordenados alfabéticamente\n" +
